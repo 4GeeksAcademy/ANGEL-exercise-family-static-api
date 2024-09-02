@@ -34,29 +34,29 @@ def handle_hello():
 # list just one member of the family
 @app.route('/member/<int:id>', methods=['GET'])
 def get_one_member(id):
-    one_member = jackson_family.get_member(id)
-    if one_member:
+    try:
+        one_member = jackson_family.get_member(id)
         return jsonify({"done": "Member found"}, one_member), 200
-    else:
+    except:
         return jsonify({"error": "Member not found"}), 400
 
 # add one member to the family
 @app.route('/member', methods=['POST'])
 def add_one_member():
-    reques_json = request.json
-    new_member = jackson_family.add_member(reques_json)
-    if new_member:
+    try:
+        reques_json = request.json
+        new_member = jackson_family.add_member(reques_json)
         return jsonify({"done": "Member added"})
-    else:
+    except:
         return jsonify({"error": "Member could not be added"},new_member)
 
 # delete one member of the family
 @app.route('/member/<int:id>', methods=['DELETE'])
 def delete_one_member(id):
-    member_to_delete = jackson_family.delete_member(id)
-    if member_to_delete:
+    try:
+        member_to_delete = jackson_family.delete_member(id)
         return jsonify({"done": "Member removed"}, member_to_delete), 200
-    else:
+    except:
         return jsonify({"error": "Member not found"}), 400
 
 # this only runs if `$ python src/app.py` is executed
